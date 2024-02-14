@@ -1,24 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Edit from "./pages/Edit";
+import Diary from "./pages/Diary";
+import New from "./pages/New";
+import Home from "./pages/home";
+
+//components
+import MyButton from "./components/Mybutton";
+import Header from "./components/Header";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <div className="App">
+        <Header
+          headText={"App"}
+          leftChild={<MyButton text={"왼쪽 버튼"} onClick={() => alert("a")} />}
+          rightChild={
+            <MyButton text={"오른쪽 버튼"} onClick={() => alert("a")} />
+          }
+        />
+        <h2>app</h2>
+        <MyButton text={"btn"} onClick={() => alert("a")} type={"positive"} />
+        <MyButton text={"btn"} onClick={() => alert("a")} type={"negative"} />
+        <MyButton text={"btn"} onClick={() => alert("a")} />
+
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/edit" element={<Edit />} />
+          <Route path="/new" element={<New />} />
+          <Route path="/diary/:id" element={<Diary />} />
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 }
 
