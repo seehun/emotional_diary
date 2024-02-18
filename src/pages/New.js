@@ -1,7 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import DiaryEditor from "../components/DiaryEditor";
 
 function New() {
-  return <div>New</div>;
+  return (
+    <>
+      <DiaryEditor />
+    </>
+  );
 }
 
 export default New;
