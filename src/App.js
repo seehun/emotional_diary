@@ -1,4 +1,4 @@
-import React, { useReducer, useRef } from "react";
+import React, { useEffect, useReducer, useRef } from "react";
 
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -30,48 +30,31 @@ const reducer = (state, action) => {
     default:
       return state;
   }
+
+  //localStorage 적용
+  localStorage.setItem("diary", JSON.stringify(newState));
   return newState;
 };
-
-const dummyData = [
-  {
-    id: 1,
-    emotion: 1,
-    date: 1708163220553, //new Date().getTime()의 값    이후 이 값을 new Date(1708163220553) 로 활용
-    content: "1번째 일기",
-  },
-  {
-    id: 2,
-    emotion: 2,
-    date: 1708163220554,
-    content: "2번째 일기",
-  },
-  {
-    id: 3,
-    emotion: 3,
-    date: 1708163220555,
-    content: "3번째 일기",
-  },
-  {
-    id: 4,
-    emotion: 4,
-    date: 1708163220556,
-    content: "4번째 일기",
-  },
-  {
-    id: 5,
-    emotion: 5,
-    date: 1708163220557,
-    content: "5번째 일기",
-  },
-];
 
 export const DiaryStateContext = React.createContext();
 export const DiaryDispatchContext = React.createContext();
 
 function App() {
-  const [data, dispatch] = useReducer(reducer, dummyData);
+  const [data, dispatch] = useReducer(reducer, []);
   const dataId = useRef(0);
+
+  useEffect(() => {
+    //app이 마운트 되었을 때, data에 로컬스토리지 값 넣어주기
+    const localData = localStorage.getItem("diary");
+    if (localData) {
+      const diaryData = JSON.parse(localData).sort(
+        (a, b) => parseInt(b.id) - parseInt(a.id)
+      );
+      dataId.current = parseInt(diaryData[0].id) + 1;
+
+      dispatch({ type: "INIT", data: diaryData });
+    }
+  }, []);
 
   //CREATE
   const onCreate = (date, content, emotion) => {

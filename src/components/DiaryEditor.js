@@ -15,7 +15,7 @@ function DiaryEditor({ isEdit, originData }) {
   const [emotion, setEmotion] = useState(3);
   const [content, setContent] = useState("");
 
-  const { onCreate, onEdit } = useContext(DiaryDispatchContext);
+  const { onCreate, onEdit, onRemove } = useContext(DiaryDispatchContext);
 
   const handleClickEmotion = (emotion) => {
     setEmotion(emotion);
@@ -39,6 +39,11 @@ function DiaryEditor({ isEdit, originData }) {
     navigate("/", { replace: true });
   };
 
+  const handleRemove = () => {
+    onRemove(originData.id);
+    navigate("/", { replace: true });
+  };
+
   useEffect(() => {
     if (isEdit) {
       //edit일 때 , originData를 초기화면에 뿌려준다
@@ -53,6 +58,15 @@ function DiaryEditor({ isEdit, originData }) {
       <Header
         headText={isEdit ? "일기 수정하기" : "새 일기쓰기"}
         leftChild={<MyButton text={"뒤로가기"} onClick={() => navigate(-1)} />}
+        rightChild={
+          isEdit && (
+            <MyButton
+              text={"삭제하기"}
+              type={"negative"}
+              onClick={handleRemove}
+            />
+          )
+        }
       />
       <div>
         <section>
