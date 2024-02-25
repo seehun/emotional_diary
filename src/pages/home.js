@@ -13,6 +13,11 @@ function Home() {
   const headerText = `${curDate.getFullYear()}년 ${curDate.getMonth() + 1}월`;
 
   useEffect(() => {
+    const titleEm = document.getElementsByTagName("title")[0];
+    titleEm.innerHTML = `감정 일기장`;
+  }, []);
+
+  useEffect(() => {
     //달별로 보여줘야 하는 데이터가 달라야 하기 때문에 이를 가공
     if (diaryList.length >= 1) {
       setData(

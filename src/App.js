@@ -50,9 +50,10 @@ function App() {
       const diaryData = JSON.parse(localData).sort(
         (a, b) => parseInt(b.id) - parseInt(a.id)
       );
-      dataId.current = parseInt(diaryData[0].id) + 1;
-
-      dispatch({ type: "INIT", data: diaryData });
+      if (diaryData.length >= 1) {
+        dataId.current = parseInt(diaryData[0].id) + 1;
+        dispatch({ type: "INIT", data: diaryData });
+      }
     }
   }, []);
 
